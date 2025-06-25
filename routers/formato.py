@@ -37,3 +37,8 @@ async def view_for_name(nombre:str):
         return formato_schema(db_client.Formatos.find_one({"nombre_formato":nombre}))
     except:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="El nombre del formato ingresado no se encuentra en la base de datos")
+    
+
+@router.get("/Todos", response_model=list[Formato])
+async def view_olds_format():
+    return formatos_schemas(db_client.Formatos.find())
