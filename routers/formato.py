@@ -28,3 +28,12 @@ async def create_one(formato:Formato):
     id = db_client.Formatos.insert_one(dict_formato).inserted_id
     new_formato = formato_schema(db_client.Formatos.find_one({"_id":id}))
     return new_formato
+
+
+
+@router.get("/Ver/{nombre}")
+async def view_for_name(nombre:str):
+    try:
+        return formato_schema(db_client.Formatos.find_one({"nombre_formato":nombre}))
+    except:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="El nombre del formato ingresado no se encuentra en la base de datos")
