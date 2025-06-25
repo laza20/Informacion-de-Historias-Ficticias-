@@ -1,1 +1,11 @@
 **/EXPLICACION.txt
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+.env
+*.sqlite3
+*.db
+.vscode/
+.idea/
