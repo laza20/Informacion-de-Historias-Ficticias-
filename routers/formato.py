@@ -19,7 +19,7 @@ def validate_object_id(id: str):
 @router.post("/Cargar/Uno",response_model=Formato, status_code=status.HTTP_200_OK)
 async def create_one(formato:Formato):
     
-    if db_client.Formatos.find_one({"nombre":formato.nombre_formato}):
+    if db_client.Formatos.find_one({"nombre_formato":formato.nombre_formato}):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="El formato que desea cargar ya se encuentra almacenado en nuestra base de datos")
     
     dict_formato = dict(formato)
