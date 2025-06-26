@@ -4,3 +4,4 @@ class Formato(BaseModel):
     id                       : str | None = None
     nombre_formato           : str
     descripcion              : str
+    tipo                     : str | None = None

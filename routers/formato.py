@@ -24,6 +24,7 @@ async def create_one(formato:Formato):
     
     dict_formato = dict(formato)
     del dict_formato["id"]
+    dict_formato["tipo"] = "Formato"
     
     id = db_client.Formatos.insert_one(dict_formato).inserted_id
     new_formato = formato_schema(db_client.Formatos.find_one({"_id":id}))
@@ -39,6 +40,7 @@ async def create_many(formatos:list[Formato]):
             
             dict_formato = dict(formato)
             del dict_formato["id"]
+            dict_formato["tipo"] = "Formato"
             lista_formatos.append(dict_formato)
         
     resultado = db_client.Formatos.insert_many(lista_formatos)
@@ -46,13 +48,17 @@ async def create_many(formatos:list[Formato]):
     documentos = db_client.Formatos.find({"_id":{"$in":ids}})
     return formatos_schemas(documentos)
             
-@router.delete("/Eliminar/{nombre_formato}",status_code=status.HTTP_202_ACCEPTED)
+@router.delete("/Eliminar/Nombre/{nombre_formato}",status_code=status.HTTP_202_ACCEPTED)
 async def delete_one_by_name(nombre_formato:str):
     borrado = db_client.Formatos.find_one_and_delete({"nombre_formato":nombre_formato})
     if not borrado:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Nombre del formato incorrecto")
     
-    
+@router.delete("/Eliminar/Todos", status_code=status.HTTP_202_ACCEPTED)
+async def delete_olds():
+    borrados = db_client.Formatos.delete_many({"tipo":"Formato"})
+    if not borrados:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="En este momento no hay formatos guardados")
 
 
 
