@@ -30,6 +30,24 @@ async def create_one(formato:Formato):
     return new_formato
 
 
+@router.post("/Cargar/Muchos", response_model=list[Formato], status_code=status.HTTP_200_OK)
+async def create_many(formatos:list[Formato]):
+    lista_formatos = []
+    for formato in formatos:
+            if db_client.Formatos.find_one({"nombre":formato.nombre_formato}):
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="El formato que desea cargar ya se encuentra almacenado en nuestra base de datos")
+            
+            dict_formato = dict(formato)
+            del dict_formato["id"]
+            lista_formatos.append(dict_formato)
+        
+    resultado = db_client.Formatos.insert_many(lista_formatos)
+    ids = resultado.inserted_ids
+    documentos = db_client.Formatos.find({"_id":{"$in":ids}})
+    return formatos_schemas(documentos)
+            
+
+
 
 @router.get("/Ver/{nombre}")
 async def view_for_name(nombre:str):
