@@ -46,6 +46,13 @@ async def create_many(formatos:list[Formato]):
     documentos = db_client.Formatos.find({"_id":{"$in":ids}})
     return formatos_schemas(documentos)
             
+@router.delete("/Eliminar/{nombre_formato}",status_code=status.HTTP_202_ACCEPTED)
+async def delete_one_by_name(nombre_formato:str):
+    borrado = db_client.Formatos.find_one_and_delete({"nombre_formato":nombre_formato})
+    if not borrado:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Nombre del formato incorrecto")
+    
+    
 
 
 
