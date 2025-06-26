@@ -9,3 +9,6 @@ __pycache__/
 *.db
 .vscode/
 .idea/
+__pycache__/
+**/__pycache__/
+*.pyc
