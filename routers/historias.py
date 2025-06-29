@@ -59,3 +59,7 @@ def cargar(historia):
 @router.get("/Todos", response_model=list[Historias])
 async def view_olds():
     return historias_schema(db_client.Historias.find({"tipo":"historia"}))
+
+@router.get("/Ver/{nombre_de_la_historia}")
+async def view_by_name(nombre_de_la_historia:str):
+    return historia_schema(db_client.Historias.find_one({"nombre_de_la_historia":nombre_de_la_historia}))
