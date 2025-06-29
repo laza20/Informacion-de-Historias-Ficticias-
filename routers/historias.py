@@ -55,3 +55,7 @@ def cargar(historia):
         del dict_historia["id"]
         dict_historia["tipo"] = "historia"
         return dict_historia
+    
+@router.get("/Todos", response_model=list[Historias])
+async def view_olds():
+    return historias_schema(db_client.Historias.find({"tipo":"historia"}))
