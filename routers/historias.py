@@ -63,3 +63,9 @@ async def view_olds():
 @router.get("/Ver/{nombre_de_la_historia}")
 async def view_by_name(nombre_de_la_historia:str):
     return historia_schema(db_client.Historias.find_one({"nombre_de_la_historia":{"$regex": f"^{nombre_de_la_historia}$", "$options": "i"}}))
+
+@router.delete("/Eliminar/Todos", status_code=status.HTTP_202_ACCEPTED)
+async def delete_olds():
+    borrados = db_client.Historias.delete_many({"tipo":"Historia"})
+    if not borrados:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="En este momento no hay formatos guardados")
