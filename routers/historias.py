@@ -41,14 +41,14 @@ async def create_many(historias:list[Historias]):
 
 def cargar(historia):
         filtros = {
-            "nombre_de_la_historia":historia.nombre_de_la_historia,
-            "year": historia.year,
-            "formato":historia.formato
+            "nombre_de_la_historia":{"$regex": f"^{historia.nombre_de_la_historia}$", "$options": "i"},
+            "year": {"$regex": f"^{historia.year}$", "$options": "i"},
+            "formato":{"$regex": f"^{historia.formato}$", "$options": "i"}
             }
         if db_client.Historias.find_one(filtros):
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="La historia ingresada ya se encuentra en nuestra base de datos")
     
-        if not db_client.Formatos.find_one({"nombre_formato":historia.formato}):
+        if not db_client.Formatos.find_one({"$regex": f"^{historia.formato}$", "$options": "i"}):
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="El formato ingresado es incorrecto o no se encuentra en la base de datos")
         
         dict_historia = dict(historia)
@@ -62,4 +62,4 @@ async def view_olds():
 
 @router.get("/Ver/{nombre_de_la_historia}")
 async def view_by_name(nombre_de_la_historia:str):
-    return historia_schema(db_client.Historias.find_one({"nombre_de_la_historia":nombre_de_la_historia}))
+    return historia_schema(db_client.Historias.find_one({"nombre_de_la_historia":{"$regex": f"^{nombre_de_la_historia}$", "$options": "i"}}))
