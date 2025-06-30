@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from db.client import db_client
 from db.models.formato import Formato
 from db.schemas.formato import formato_schema , formatos_schemas
-from funciones import funciones_logicas
+from funciones import funciones_logicas, validaciones
 from funciones import peticiones_http_post
 
 
@@ -13,10 +13,8 @@ router = APIRouter( prefix="/Formatos",
 @router.post("/Cargar/Uno",response_model=Formato, status_code=status.HTTP_200_OK)
 async def create_one(formato:Formato):
     
-    dict_formato = funciones_logicas.cargar(formato,"Formatos")
-    
-    id = db_client.Formatos.insert_one(dict_formato).inserted_id
-    new_formato = formato_schema(db_client.Formatos.find_one({"_id":id}))
+    validaciones.validaciones_de_carga_formatos(formato, "Formato")
+    new_formato = funciones_logicas.cargar_uno(formato, "Formato", formato_schema)
     return new_formato
 
 
