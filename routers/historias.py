@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from db.client import db_client
 from db.models.historias import Historias
 from db.schemas.historias import historia_schema, historias_schema
-from funciones import funciones_logicas
+from funciones import funciones_logicas, validaciones
 
 router = APIRouter( prefix="/Historias",
                    tags=["Historias"],
@@ -10,10 +10,8 @@ router = APIRouter( prefix="/Historias",
     
 @router.post("/Cargar/Uno", response_model=Historias, status_code=status.HTTP_201_CREATED)
 async def create_one(historia:Historias):
-    dict_historia = cargar(historia)
-    
-    id = db_client.Historias.insert_one(dict_historia).inserted_id
-    new_historia = historia_schema(db_client.Historias.find_one({"_id":id}))
+    validaciones.validaciones_de_carga_historias(historia, "Historias")
+    new_historia = funciones_logicas.cargar_uno(historia, "Historias", historia_schema)
     
     return new_historia
 
@@ -32,16 +30,7 @@ async def create_many(historias:list[Historias]):
     return historias_schema(documentos)
 
 def cargar(historia):
-        filtros = {
-            "nombre_de_la_historia":{"$regex": f"^{historia.nombre_de_la_historia}$", "$options": "i"},
-            "year": {"$regex": f"^{historia.year}$", "$options": "i"},
-            "formato":{"$regex": f"^{historia.formato}$", "$options": "i"}
-            }
-        if db_client.Historias.find_one(filtros):
-            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="La historia ingresada ya se encuentra en nuestra base de datos")
-    
-        if not db_client.Formatos.find_one({"nombre_formato":{"$regex": f"^{historia.formato}$", "$options": "i"}}):
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"El formato {historia.formato} ingresado es incorrecto o no se encuentra en la base de datos")
+
         
         dict_historia = dict(historia)
         del dict_historia["id"]
@@ -61,3 +50,9 @@ async def delete_olds():
     borrados = db_client.Historias.delete_many({"tipo":"Historia"})
     if not borrados:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="En este momento no hay formatos guardados")
+
+@router.delete("/Eliminar/Nombre/{nombre_de_la_historia}",status_code=status.HTTP_202_ACCEPTED)
+async def delete_one_by_name(nombre_de_la_historia:str):
+    borrado = db_client.Historias.find_one_and_delete({"nombre_de_la_historia":nombre_de_la_historia})
+    if not borrado:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Nombre del formato incorrecto")
