@@ -17,25 +17,10 @@ async def create_one(historia:Historias):
 
 @router.post("/Cargar/Muchos", response_model=list[Historias], status_code=status.HTTP_201_CREATED)
 async def create_many(historias:list[Historias]):
-
-    lista_historias = []
-    for historia in historias:
-        dict_historia = cargar(historia)
-        lista_historias.append(dict_historia)
-        
-    resultado = db_client.Historias.insert_many(lista_historias)
-    ids = resultado.inserted_ids
-    documentos = db_client.Historias.find({"_id":{"$in":ids}})
     
-    return historias_schema(documentos)
+    documentos = funciones_logicas.cargar_muchos(historias, "Historias", historias_schema, validaciones.validaciones_de_carga_historias)
+    return documentos
 
-def cargar(historia):
-
-        
-        dict_historia = dict(historia)
-        del dict_historia["id"]
-        dict_historia["tipo"] = "historia"
-        return dict_historia
     
 @router.get("/Todos", response_model=list[Historias])
 async def view_olds():
