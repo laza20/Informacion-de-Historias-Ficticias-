@@ -13,23 +13,16 @@ router = APIRouter( prefix="/Formatos",
 @router.post("/Cargar/Uno",response_model=Formato, status_code=status.HTTP_200_OK)
 async def create_one(formato:Formato):
     
-    validaciones.validaciones_de_carga_formatos(formato, "Formato")
-    new_formato = funciones_logicas.cargar_uno(formato, "Formato", formato_schema)
+    validaciones.validaciones_de_carga_formatos(formato, "Formatos")
+    new_formato = funciones_logicas.cargar_uno(formato, "Formatos", formato_schema)
     return new_formato
 
 
 @router.post("/Cargar/Muchos", response_model=list[Formato], status_code=status.HTTP_200_OK)
 async def create_many(formatos:list[Formato]):
-    pass
-    #lista_formatos = []
-    #for formato in formatos:
-        #dict_formato = cargar(formato)
-        #lista_formatos.append(dict_formato)
-        
-   # resultado = db_client.Formatos.insert_many(lista_formatos)
-    #ids = resultado.inserted_ids
-    #documentos = db_client.Formatos.find({"_id":{"$in":ids}})
-    #return formatos_schemas(documentos)
+    
+    documentos = funciones_logicas.cargar_muchos(formatos, "Formatos", formatos_schemas, validaciones.validaciones_de_carga_formatos)
+    return documentos
     
 
             
