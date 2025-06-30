@@ -2,19 +2,12 @@ from fastapi import APIRouter, HTTPException, status
 from db.client import db_client
 from db.models.formato import Formato
 from db.schemas.formato import formato_schema , formatos_schemas
-from bson import ObjectId
-from bson.errors import InvalidId
+from funciones import funciones_logicas
 
 
 router = APIRouter( prefix="/Formatos",
                    tags=["Formatos"],
                    responses={404:{ "message":"No encontrado"}})
-
-def validate_object_id(id: str):
-    try:
-        return ObjectId(id)
-    except InvalidId:
-        raise HTTPException(status_code=400, detail="ID inválido")
     
 @router.post("/Cargar/Uno",response_model=Formato, status_code=status.HTTP_200_OK)
 async def create_one(formato:Formato):

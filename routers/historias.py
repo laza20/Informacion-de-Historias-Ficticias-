@@ -1,20 +1,12 @@
 from fastapi import APIRouter, HTTPException, status
 from db.client import db_client
-from bson import ObjectId
-from bson.errors import InvalidId
 from db.models.historias import Historias
 from db.schemas.historias import historia_schema, historias_schema
+from funciones import funciones_logicas
 
 router = APIRouter( prefix="/Historias",
                    tags=["Historias"],
                    responses={404:{ "message":"No encontrado"}})
-
-
-def validate_object_id(id: str):
-    try:
-        return ObjectId(id)
-    except InvalidId:
-        raise HTTPException(status_code=400, detail="ID inválido")
     
 @router.post("/Cargar/Uno", response_model=Historias, status_code=status.HTTP_201_CREATED)
 async def create_one(historia:Historias):
