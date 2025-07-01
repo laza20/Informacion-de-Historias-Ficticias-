@@ -2,18 +2,21 @@ from fastapi import APIRouter, HTTPException, status
 from db.client import db_client
 from db.models.historias import Historias
 from db.schemas.historias import historia_schema, historias_schema
-from funciones import funciones_logicas, validaciones
+from funciones import funciones_logicas, validaciones, peticiones_http_post
 
 router = APIRouter( prefix="/Historias",
                    tags=["Historias"],
                    responses={404:{ "message":"No encontrado"}})
     
-@router.post("/Cargar/Uno", response_model=Historias, status_code=status.HTTP_201_CREATED)
-async def create_one(historia:Historias):
-    validaciones.validaciones_de_carga_historias(historia, "Historias")
-    new_historia = funciones_logicas.cargar_uno(historia, "Historias", historia_schema)
-    
-    return new_historia
+
+#FUNCION PARA CARGAR UN DOCUMENTO 
+peticiones_http_post.cargar_uno(
+    Historias,
+    router,
+    "Historias",
+    historia_schema,
+    validaciones.validaciones_de_carga_historias
+)
 
 @router.post("/Cargar/Muchos", response_model=list[Historias], status_code=status.HTTP_201_CREATED)
 async def create_many(historias:list[Historias]):
