@@ -6,4 +6,5 @@ class Caracteristicas(BaseModel):
     descripcion    : str
     nombre_historia: str
     formato        : str
+    identificacion : str
     tipo           : str 
