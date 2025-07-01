@@ -16,3 +16,11 @@ peticiones_http_post.cargar_uno(
     caracterica_schema,
     validaciones.validacion_de_carga_caracteristicas
 )
+
+peticiones_http_post.cargar_muchos(
+    Caracteristicas,
+    router,
+    "Caracteristicas",
+    caractericas_schema,
+    validaciones.validacion_de_carga_caracteristicas    
+)
