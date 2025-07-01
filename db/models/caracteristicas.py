@@ -7,4 +7,4 @@ class Caracteristicas(BaseModel):
     nombre_historia: str
     formato        : str
     identificacion : str
-    tipo           : str 
+    tipo           : str | None = None 
