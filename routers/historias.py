@@ -18,11 +18,13 @@ peticiones_http_post.cargar_uno(
     validaciones.validaciones_de_carga_historias
 )
 
-@router.post("/Cargar/Muchos", response_model=list[Historias], status_code=status.HTTP_201_CREATED)
-async def create_many(historias:list[Historias]):
-    
-    documentos = funciones_logicas.cargar_muchos(historias, "Historias", historias_schema, validaciones.validaciones_de_carga_historias)
-    return documentos
+peticiones_http_post.cargar_muchos(
+    Historias,
+    router,
+    "Historias",
+    historias_schema,
+    validaciones.validaciones_de_carga_historias    
+)
 
     
 @router.get("/Todos", response_model=list[Historias])
