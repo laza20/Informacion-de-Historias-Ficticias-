@@ -5,6 +5,7 @@ def caracterica_schema(tipo)->dict:
     "descripcion"    : str (tipo["descripcion"]),
     "nombre_historia": str (tipo["nombre_historia"]),
     "formato"        : str (tipo["formato"]),
+    "identificacion" : str (tipo["identificacion"]),
     "tipo"           : str (tipo["tipo"]),
     }
     
