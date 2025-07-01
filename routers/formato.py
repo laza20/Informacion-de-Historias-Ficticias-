@@ -19,13 +19,13 @@ peticiones_http_post.cargar_uno(
     validaciones.validaciones_de_carga_formatos
 )
 
-
-@router.post("/Cargar/Muchos", response_model=list[Formato], status_code=status.HTTP_200_OK)
-async def create_many(formatos:list[Formato]):
-    
-    documentos = funciones_logicas.cargar_muchos(formatos, "Formatos", formatos_schemas, validaciones.validaciones_de_carga_formatos)
-    return documentos
-    
+peticiones_http_post.cargar_muchos(
+    Formato,
+    router,
+    "Formatos",
+    formatos_schemas,
+    validaciones.validaciones_de_carga_formatos
+)   
 
             
 @router.delete("/Eliminar/Nombre/{nombre_formato}",status_code=status.HTTP_202_ACCEPTED)
