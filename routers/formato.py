@@ -9,13 +9,15 @@ from funciones import peticiones_http_post
 router = APIRouter( prefix="/Formatos",
                    tags=["Formatos"],
                    responses={404:{ "message":"No encontrado"}})
-    
-@router.post("/Cargar/Uno",response_model=Formato, status_code=status.HTTP_200_OK)
-async def create_one(formato:Formato):
-    
-    validaciones.validaciones_de_carga_formatos(formato, "Formatos")
-    new_formato = funciones_logicas.cargar_uno(formato, "Formatos", formato_schema)
-    return new_formato
+
+#FUNCION PARA CARGAR UN DOCUMENTO    
+peticiones_http_post.cargar_uno(
+    Formato,
+    router,
+    "Formatos",
+    formato_schema,
+    validaciones.validaciones_de_carga_formatos
+)
 
 
 @router.post("/Cargar/Muchos", response_model=list[Formato], status_code=status.HTTP_200_OK)
