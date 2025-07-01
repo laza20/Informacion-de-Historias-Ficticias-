@@ -14,5 +14,5 @@ peticiones_http_post.cargar_uno(
     router,
     "Caracteristicas",
     caracterica_schema,
-    validaciones.validaciones_de_carga_historias
+    validaciones.validacion_de_carga_caracteristicas
 )
