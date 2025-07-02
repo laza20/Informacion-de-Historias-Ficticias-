@@ -34,6 +34,14 @@ peticiones_http_get.ver_todos(
     "Formatos"
 )
 
+lista_propiedades = ["nombre_formato", "descripcion"]
+peticiones_http_get.ver_uno_por_dato_string(
+    router, 
+    formato_schema, 
+    "Formatos", 
+    lista_propiedades
+)
+
             
 @router.delete("/Eliminar/Nombre/{nombre_formato}",status_code=status.HTTP_202_ACCEPTED)
 async def delete_one_by_name(nombre_formato:str):
