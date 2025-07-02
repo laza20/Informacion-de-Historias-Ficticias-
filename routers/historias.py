@@ -33,12 +33,12 @@ peticiones_http_get.ver_todos(
     "Historias"
 )
     
-lista_propiedades = ["nombre_de_la_historia", "descripcion"]
+lista_propiedades_sigulares = ["nombre_de_la_historia", "descripcion"]
 peticiones_http_get.ver_uno_por_dato_string(
     router, 
     historia_schema, 
     "Historias", 
-    lista_propiedades
+    lista_propiedades_sigulares
 )
 
 @router.delete("/Eliminar/Todos", status_code=status.HTTP_202_ACCEPTED)

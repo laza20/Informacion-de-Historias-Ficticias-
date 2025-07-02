@@ -34,12 +34,12 @@ peticiones_http_get.ver_todos(
     "Formatos"
 )
 
-lista_propiedades = ["nombre_formato", "descripcion"]
+lista_propiedades_sigulares = ["nombre_formato", "descripcion"]
 peticiones_http_get.ver_uno_por_dato_string(
     router, 
     formato_schema, 
     "Formatos", 
-    lista_propiedades
+    lista_propiedades_sigulares
 )
 
             
@@ -57,10 +57,3 @@ async def delete_olds():
 
 
 
-@router.get("/Ver/{nombre}")
-async def view_for_name(nombre:str):
-    try:
-        return formato_schema(db_client.Formatos.find_one({"nombre_formato":nombre}))
-    except:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="El nombre del formato ingresado no se encuentra en la base de datos")
-    
