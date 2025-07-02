@@ -3,7 +3,7 @@ from db.client import db_client
 from db.models.formato import Formato
 from db.schemas.formato import formato_schema , formatos_schemas
 from funciones import validaciones
-from funciones import peticiones_http_post
+from funciones import peticiones_http_post, peticiones_http_get
 
 
 router = APIRouter( prefix="/Formatos",
@@ -27,6 +27,13 @@ peticiones_http_post.cargar_muchos(
     validaciones.validaciones_de_carga_formatos
 )   
 
+peticiones_http_get.ver_todos(
+    router, 
+    Formato, 
+    formatos_schemas, 
+    "Formatos"
+)
+
             
 @router.delete("/Eliminar/Nombre/{nombre_formato}",status_code=status.HTTP_202_ACCEPTED)
 async def delete_one_by_name(nombre_formato:str):
@@ -49,7 +56,3 @@ async def view_for_name(nombre:str):
     except:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="El nombre del formato ingresado no se encuentra en la base de datos")
     
-
-@router.get("/Todos", response_model=list[Formato])
-async def view_olds_format():
-    return formatos_schemas(db_client.Formatos.find())
