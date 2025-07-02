@@ -3,7 +3,7 @@ from db.client import db_client
 from db.models.formato import Formato
 from db.schemas.formato import formato_schema , formatos_schemas
 from funciones import validaciones
-from funciones import peticiones_http_post, peticiones_http_get
+from funciones import peticiones_http_post, peticiones_http_get, peticiones_http_delete
 
 
 router = APIRouter( prefix="/Formatos",
@@ -42,18 +42,15 @@ peticiones_http_get.ver_uno_por_dato_string(
     lista_propiedades_sigulares
 )
 
-            
+peticiones_http_delete.borrar_todos(
+    router,
+    "Formatos"
+    )
+
+
 @router.delete("/Eliminar/Nombre/{nombre_formato}",status_code=status.HTTP_202_ACCEPTED)
 async def delete_one_by_name(nombre_formato:str):
     borrado = db_client.Formatos.find_one_and_delete({"nombre_formato":nombre_formato})
     if not borrado:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Nombre del formato incorrecto")
     
-@router.delete("/Eliminar/Todos", status_code=status.HTTP_202_ACCEPTED)
-async def delete_olds():
-    borrados = db_client.Formatos.delete_many({"tipo":"Formato"})
-    if not borrados:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="En este momento no hay formatos guardados")
-
-
-
