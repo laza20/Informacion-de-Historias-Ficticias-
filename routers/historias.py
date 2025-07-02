@@ -49,6 +49,14 @@ peticiones_http_get.ver_documento_por_año(
     lista_propiedades_sigulares_int
 )
 
+lista_propiedades_plurales = ["formato"]
+peticiones_http_get.ver_documentos_por_filtro(
+    router, 
+    historias_schema, 
+    "Historias", 
+    lista_propiedades_plurales
+)
+
 @router.delete("/Eliminar/Todos", status_code=status.HTTP_202_ACCEPTED)
 async def delete_olds():
     borrados = db_client.Historias.delete_many({"tipo":"historia"})
