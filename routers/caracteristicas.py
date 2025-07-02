@@ -32,7 +32,7 @@ peticiones_http_get.ver_todos(
 )
 
 
-lista_propiedades_sigulares = ["caracteristica", "descripcion", ]
+lista_propiedades_sigulares = ["caracteristica", "descripcion" ]
 peticiones_http_get.ver_uno_por_dato_string(
     router, 
     caracterica_schema, 
@@ -52,3 +52,10 @@ peticiones_http_delete.borrar_todos(
     router,
     "Caracteristicas"
     )
+
+lista_propiedades_sigulares_a_borrar = ["caracteristica", "descripcion" ]
+peticiones_http_delete.borrar_por_data_string(
+    router,
+    "Caracteristicas",
+    lista_propiedades_sigulares_a_borrar
+)
