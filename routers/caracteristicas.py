@@ -39,3 +39,11 @@ peticiones_http_get.ver_uno_por_dato_string(
     "Caracteristicas", 
     lista_propiedades_sigulares
 )
+
+lista_propiedades_plurales = ["nombre_historia","formato","identificacion"]
+peticiones_http_get.ver_documentos_por_filtro(
+    router, 
+    caractericas_schema, 
+    "Caracteristicas", 
+    lista_propiedades_plurales
+)
