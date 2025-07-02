@@ -62,8 +62,9 @@ peticiones_http_delete.borrar_todos(
     "Historias"
     )
 
-@router.delete("/Eliminar/Nombre/{nombre_de_la_historia}",status_code=status.HTTP_202_ACCEPTED)
-async def delete_one_by_name(nombre_de_la_historia:str):
-    borrado = db_client.Historias.find_one_and_delete({"nombre_de_la_historia":nombre_de_la_historia})
-    if not borrado:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Nombre del formato incorrecto")
+lista_propiedades_sigulares_a_borrar = ["nombre_de_la_historia", "descripcion"]
+peticiones_http_delete.borrar_por_data_string(
+    router,
+    "Historias",
+    lista_propiedades_sigulares_a_borrar
+)
