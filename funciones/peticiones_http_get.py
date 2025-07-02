@@ -37,3 +37,13 @@ def ver_documento_por_año(router, schema, base_de_datos, lista_proiedades):
                 
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No se han encontrado documentos con el Año {dato}")
         
+def ver_documentos_por_filtro(router, schema, base_de_datos, lista_proiedades):
+    @router.get("/Ver/Datos/Por/{dato}")
+    async def view_by_data(dato:str):
+        coleccion = getattr(db_client, base_de_datos)
+        for propiedad in lista_proiedades:
+            resultado = schema(coleccion.find({propiedad:{"$regex": f"^{dato}$", "$options": "i"}}))
+            if resultado:
+                return resultado
+                
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No se han encontrado documentos con el dato {dato}")
