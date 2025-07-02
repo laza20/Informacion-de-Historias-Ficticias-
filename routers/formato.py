@@ -47,10 +47,10 @@ peticiones_http_delete.borrar_todos(
     "Formatos"
     )
 
-
-@router.delete("/Eliminar/Nombre/{nombre_formato}",status_code=status.HTTP_202_ACCEPTED)
-async def delete_one_by_name(nombre_formato:str):
-    borrado = db_client.Formatos.find_one_and_delete({"nombre_formato":nombre_formato})
-    if not borrado:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Nombre del formato incorrecto")
+lista_propiedades_sigulares_a_borrar = ["nombre_formato", "descripcion"]
+peticiones_http_delete.borrar_por_data_string(
+    router,
+    "Formatos",
+    lista_propiedades_sigulares_a_borrar
+)
     
