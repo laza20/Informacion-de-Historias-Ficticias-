@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from db.models.caracteristicas import Caracteristicas
 from db.schemas.caracteristicas import caracterica_schema,caractericas_schema
-from funciones import  peticiones_http_post, validaciones
+from funciones import  peticiones_http_post, validaciones, peticiones_http_get
 
 router = APIRouter(prefix="/Caracteristicas",
                    tags= ["Caracteristicas"],
@@ -22,4 +22,11 @@ peticiones_http_post.cargar_muchos(
     "Caracteristicas",
     caractericas_schema,
     validaciones.validacion_de_carga_caracteristicas    
+)
+
+peticiones_http_get.ver_todos(
+    router, 
+    Caracteristicas, 
+    caractericas_schema, 
+    "Caracteristicas"
 )
