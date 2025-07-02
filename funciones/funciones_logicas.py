@@ -25,6 +25,7 @@ def cargar_muchos(datos, base_de_datos , schema, validacion):
         validacion(dato, base_de_datos)
         dict_dato = dict(dato)
         del dict_dato["id"]
+        dict_dato["tipo"] = base_de_datos
         lista.append(dict_dato)
         
     resultado = coleccion.insert_many(lista)
