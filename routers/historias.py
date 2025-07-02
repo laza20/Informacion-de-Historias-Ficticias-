@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from db.client import db_client
 from db.models.historias import Historias
 from db.schemas.historias import historia_schema, historias_schema
-from funciones import validaciones, peticiones_http_post, peticiones_http_get
+from funciones import validaciones, peticiones_http_post, peticiones_http_get, peticiones_http_delete
 
 router = APIRouter( prefix="/Historias",
                    tags=["Historias"],
@@ -57,11 +57,10 @@ peticiones_http_get.ver_documentos_por_filtro(
     lista_propiedades_plurales
 )
 
-@router.delete("/Eliminar/Todos", status_code=status.HTTP_202_ACCEPTED)
-async def delete_olds():
-    borrados = db_client.Historias.delete_many({"tipo":"historia"})
-    if not borrados:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="En este momento no hay formatos guardados")
+peticiones_http_delete.borrar_todos(
+    router,
+    "Historias"
+    )
 
 @router.delete("/Eliminar/Nombre/{nombre_de_la_historia}",status_code=status.HTTP_202_ACCEPTED)
 async def delete_one_by_name(nombre_de_la_historia:str):
