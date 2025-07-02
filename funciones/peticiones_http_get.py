@@ -26,7 +26,7 @@ def ver_uno_por_dato_string(router, schema, base_de_datos, lista_proiedades):
                 
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No se han encontrado documentos con el dato {dato}")
         
-def ver_uno_por_dato_year(router, schema, base_de_datos, lista_proiedades):
+def ver_documento_por_año(router, schema, base_de_datos, lista_proiedades):
     @router.get("/Ver/Año/{dato}")
     async def view_by_year(dato:int):
         coleccion = getattr(db_client, base_de_datos)
