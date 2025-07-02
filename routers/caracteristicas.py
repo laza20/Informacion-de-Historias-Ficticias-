@@ -30,3 +30,12 @@ peticiones_http_get.ver_todos(
     caractericas_schema, 
     "Caracteristicas"
 )
+
+
+lista_propiedades = ["caracteristica", "descripcion", ]
+peticiones_http_get.ver_uno_por_dato_string(
+    router, 
+    caracterica_schema, 
+    "Caracteristicas", 
+    lista_propiedades
+)
