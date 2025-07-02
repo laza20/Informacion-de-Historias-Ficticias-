@@ -1,8 +1,7 @@
-from fastapi import APIRouter, HTTPException, status
-from db.client import db_client
+from fastapi import APIRouter
 from db.models.caracteristicas import Caracteristicas
 from db.schemas.caracteristicas import caracterica_schema,caractericas_schema
-from funciones import funciones_logicas, peticiones_http_post, validaciones
+from funciones import  peticiones_http_post, validaciones
 
 router = APIRouter(prefix="/Caracteristicas",
                    tags= ["Caracteristicas"],

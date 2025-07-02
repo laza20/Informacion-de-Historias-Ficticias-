@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from db.client import db_client
 from db.models.historias import Historias
 from db.schemas.historias import historia_schema, historias_schema
-from funciones import funciones_logicas, validaciones, peticiones_http_post
+from funciones import validaciones, peticiones_http_post
 
 router = APIRouter( prefix="/Historias",
                    tags=["Historias"],

@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from db.client import db_client
 from db.models.formato import Formato
 from db.schemas.formato import formato_schema , formatos_schemas
-from funciones import funciones_logicas, validaciones
+from funciones import validaciones
 from funciones import peticiones_http_post
 
 
