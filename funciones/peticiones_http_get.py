@@ -13,3 +13,16 @@ def ver_todos(router, Clase: Type[BaseModel], schema, base_de_datos):
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No se encontraron o no hay datos")
         
         return datos
+    
+    
+def ver_uno_por_dato_string(router, schema, base_de_datos, lista_proiedades):
+    @router.get("/Ver/{dato}")
+    async def view_by_data(dato:str):
+        coleccion = getattr(db_client, base_de_datos)
+        for propiedad in lista_proiedades:
+            resultado = coleccion.find_one({propiedad:{"$regex": f"^{dato}$", "$options": "i"}})
+            if resultado:
+                return schema(resultado)
+                
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No se han encontrado documentos con el dato {dato}")
+        
