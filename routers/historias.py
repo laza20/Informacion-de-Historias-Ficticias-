@@ -33,11 +33,13 @@ peticiones_http_get.ver_todos(
     "Historias"
 )
     
-
-
-@router.get("/Ver/{nombre_de_la_historia}")
-async def view_by_name(nombre_de_la_historia:str):
-    return historia_schema(db_client.Historias.find_one({"nombre_de_la_historia":{"$regex": f"^{nombre_de_la_historia}$", "$options": "i"}}))
+lista_proiedades = ["nombre_de_la_historia", "descripcion"]
+peticiones_http_get.ver_uno_por_dato_string(
+    router, 
+    historia_schema, 
+    "Historias", 
+    lista_proiedades
+)
 
 @router.delete("/Eliminar/Todos", status_code=status.HTTP_202_ACCEPTED)
 async def delete_olds():
