@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from db.models.caracteristicas import Caracteristicas
 from db.schemas.caracteristicas import caracterica_schema,caractericas_schema
-from funciones import  peticiones_http_post, validaciones, peticiones_http_get
+from funciones import  peticiones_http_post, validaciones, peticiones_http_get, peticiones_http_delete
 
 router = APIRouter(prefix="/Caracteristicas",
                    tags= ["Caracteristicas"],
@@ -47,3 +47,8 @@ peticiones_http_get.ver_documentos_por_filtro(
     "Caracteristicas", 
     lista_propiedades_plurales
 )
+
+peticiones_http_delete.borrar_todos(
+    router,
+    "Caracteristicas"
+    )
